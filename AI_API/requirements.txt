@@ -1,0 +1,11 @@
+pandas
+sqlalchemy
+fastapi
+pydantic
+ipython
+textwrap3
+google-generativeai
+langchain-text-splitter
+langchain-google-genai
+langchain
+json
