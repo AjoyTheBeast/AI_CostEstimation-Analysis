@@ -483,7 +483,15 @@ select.form-control {
     }).on('hidden.bs.collapse', function () {
         $(this).parent().find('.glyphicon-menu-up').removeClass('glyphicon-menu-up').addClass('glyphicon-menu-down');
     });
+     // Event handler for input fields
 
+  $('textarea.form-control').on('input', function () {
+
+   // Clear output and hide container when typing starts
+
+   $('.Container').hide().find('label').empty(); // Hide container and clear output label
+
+  });
     
     $('.aceForm').on('submit', function () {
        
