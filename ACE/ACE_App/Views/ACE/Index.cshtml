@@ -6,500 +6,495 @@
 
 @{
 
-    Layout = "~/Pages/Shared/_Layout.cshtml";
+ Layout = "~/Pages/Shared/_Layout.cshtml";
 
-    ViewBag.Title = "ACE Home";
+ ViewBag.Title = "ACE Home";
 
 }
 <style>
-    .form-control {
-    border-radius: 4px;
-    border: 1px solid #ced4da;
-    padding: 10px;
-    width: 100%;
+ .form-control {
+ border-radius: 4px;
+ border: 1px solid #ced4da;
+ padding: 10px;
+ width: 100%;
 }
 
 textarea.form-control {
-    resize: none;
+ resize: none;
 }
 
+.col-md-1{
+ padding: 25px;
+ font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
 select.form-control {
-    width: 100%;
-    padding: 10px;
+ width: 100%;
+ padding: 10px;
 }
-    .row {
-        padding: 2px;
-        margin: 2px;
-    }
+ .row {
+ padding: 2px;
+ margin: 2px;
+ }
 
+ .requiredicon {
+ color: red !important;
+ }
 
-    .requiredicon {
-        color: red !important;
-    }
+ /* .m2 {
 
+  margin-top: 8px !important;
+ } */
 
-    /*  .m2 {
-            margin-top: 8px !important;
-        } */
+ .form-control {
+ border-radius: 4px !important;
+ }
 
-    .form-control {
-        border-radius: 4px !important;
-    }
+ .chosen-choices {
+ border-radius: 4px !important;
+ }
 
-    .chosen-choices {
-        border-radius: 4px !important;
-    }
+ .font-red{
+ color:red !important;
+ font-size:11px;
+ justify-content:normal;
+ }
 
-    .font-red{
-        color:red !important;
-        font-size:11px;
-        justify-content:normal;
-    }
+ .chosen-container {
+ width: 280px !important;
+ }
 
-    .chosen-container {
-        width: 280px !important;
-    }
+ /*for accordion */
 
-    /*for accordion */
-
-    .panel {
-    border-radius: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
+ .panel {
+ border-radius: 8px;
+ margin-bottom: 10px;
+ border: 1px solid #ddd;
 }
 
 .panel-heading {
-    background-color: cornflowerblue;
-    color: white;
-    padding: 10px;
-    border-radius: 8px 8px 0 0;
-    cursor: pointer;
+ background-color: cornflowerblue;
+ color: white;
+ padding: 10px;
+ padding-bottom:10px;
+ border-radius: 8px 8px 8px 8px;
+ cursor: pointer;
+}
+.input-group-addon {
+ padding: 10px;
 }
 
 .panel-title {
-    margin-top: 0;
-    margin-bottom: 0;
-    font-size: 18px;
+ margin-top: 0;
+ margin-bottom: 0;
+ font-size: 18px;
 }
 
 .panel-body {
-    padding: 15px;
-    border-top: 1px solid #ddd;
+ padding: 15px;
+ border-top: 1px solid #ddd;
 }
 
 .panel-body p {
-    margin-bottom: 10px;
+ margin-bottom: 10px;
 }
-   /* Button styling */
+ /* Button styling */
 .btn {
-    border-radius: 10px;
-    border: none;
-    font-weight: bold;
-    padding: 10px 20px;
-    margin: 5px;
-    cursor: pointer;
+ border-radius: 10px;
+ border: none;
+ font-weight: bold;
+ padding: 10px 20px;
+ margin: 5px;
+ cursor: pointer;
 }
 
 .btn-primary {
-    background-color: #007bff;
-    color: white;
+ background-color: #007bff;
+ color: white;
 }
 
 .btn-secondary {
-    background-color: #6c757d;
-    color: white;
+ background-color: #6c757d;
+ color: white;
 }
 
 .btn-primary:hover, .btn-secondary:hover {
-    opacity: 0.8;
+ opacity: 0.8;
 }
 
-    .col-md-3 p {
-        color: red;
-        font-size: 11px !important;
-        text-align: justify;
-    }
+ .col-md-3 p {
+ color: red;
+ font-size: 11px !important;
+ text-align: justify;
+ }
 
-    .input-group-btn {
-        margin: 20px;
-        font-size: large;
-    }
+ .input-group-btn {
+ margin: 20px;
+ font-size: large;
+ }
 
 </style>
 @* <div class="row">
 
-    <div class="col-lg-4 col-lg-offset-4"> *@
+ <div class="col-lg-4 col-lg-offset-4"> *@
 
 @using (Html.BeginForm("Create", "ACE", FormMethod.Post, new { @class = "aceForm" }))
 
 {
 
-    {
-        <h2 class="text-center"><b>ACE - The AI driven COST ESTIMATION</b></h2>
+ {
+ <h2 class="text-center"><b>ACE - The AI driven COST ESTIMATION</b></h2>
 
-            <div class="panel panel-primary ">
+  <div class="panel panel-primary ">
 
-            <div class="panel-heading">
+  <div class="panel-heading">
 
-                <h4 class="panel-title"><b>Basic Search</b></h4>
+  <h4 class="panel-title"><b>Basic Search</b></h4>
 
-            </div>
+  </div>
 
-        </div>
+ </div>
 
-        <div class="row">
-            <div class="input-group">
-                <div class="col-md-1">Provide a high level Project description</div>
-                <div class="col-md-6">
-                        @Html.TextAreaFor(model => model.UserInput, new { @class = "form-control", rows = "4", placeholder="I want to create a banking app such that...",Style = "min-width:100%;resize:none;height:120px;margin:20px" })                  
-                </div>
-                <div class="col-md-4">
-                    <br />
-                    <br />
-                    <br />
-                <h4><strong>Example</strong></h4>
-                <p class="font-red" style="font-style:italic"> Create an API using Python and Oracle to integrate it with front-end using agile approach </p>
-                </div>
-                <div class="col-md-1"></div>
-            </div>
-        </div>
+ <div class="row">
+  <div class="input-group">
+  <div class="col-md-1">Provide a high level Project description</div>
+  <div class="col-md-6">
+   @Html.TextAreaFor(model => model.UserInput, new { @class = "form-control", rows = "4", placeholder="I want to create a banking app such that...",Style = "min-width:100%;resize:none;height:120px;margin:20px" })
+  </div>
+  <div class="col-md-4">
+   <br />
+   <br />
+   <br />
+  <h4><strong>Example</strong></h4>
+  <p class="font-red" style="font-style:italic"> Create an API using Python and Oracle to integrate it with front-end using agile approach </p>
+  </div>
+  <div class="col-md-1"></div>
+  </div>
+ </div>
 
+ <div id="accordion" class="pannel-group">
 
+  @*Create panel*@
 
-        <div id="accordion" class="pannel-group">
+  <div class="panel panel-primary ">
 
-            @*Create panel*@
+  <div class="panel-heading">
 
-            <div class="panel panel-primary ">
+   <h4 class="panel-title">
 
-                <div class="panel-heading">
+   @*//link head with body use #panelBody and use 2 data dash attribute toggle is collapse and parent is #accordion*@
 
-                    <h4 class="panel-title">
+   <span href="#panelBody" data-toggle="collapse" data-parent="#accordion">
 
-                        @*//link head with body use #panelBody and use 2 data dash attribute toggle is collapse and parent is #accordion*@
+    @* <span class="glyphicon glyphicon-menu-down"></span>
+    *@
+    &nbsp;<strong> Advanced search</strong>
 
-                        <span href="#panelBody" data-toggle="collapse" data-parent="#accordion">
+   </span>
 
-                            @*    <span class="glyphicon glyphicon-menu-down"></span>
-                            *@
-                            &nbsp;<strong> Advanced search</strong>
+   </h4>
 
-                        </span>
+  </div>
 
-                    </h4>
+  @*//to keep all panel body collapse*@
 
-                </div>
+  <div id="panelBody" class="panel-collapse collapse">
 
-                @*//to keep all panel body collapse*@
+   @*//if we use in it will be opened by default*@
 
-                <div id="panelBody" class="panel-collapse collapse">
+   <div class="panel-body">
 
-                    @*//if we use in it will be opened by default*@
+   @*------------------------start of accordion menu ---------------------------*@
 
-                    <div class="panel-body">
+   <div class="row m2">
 
-                        @*------------------------start of accordion menu ---------------------------*@
+    <div class="col-md-2"></div>
 
-                        <div class="row m2">
+    <div class="col-md-4">
 
-                            <div class="col-md-2"></div>
+    <div class="row">
 
-                            <div class="col-md-4">
+     <label>Project Complexity</label>
 
-                                <div class="row">
+    </div>
 
-                                    <label>Project Complexity</label>
+    <div class="row">
+     @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
 
-                                </div>
+    </div>
 
+    </div>
 
-                                <div class="row">
-                                    @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
+    <div class="col-md-4">
 
-                                </div>
+    <div class="row">
 
-                            </div>
+     <label>Team Size</label>
 
-                            <div class="col-md-4">
+    </div>
 
-                                <div class="row">
+    <div class="row">
 
-                                    <label>Team Size</label>
+     @Html.TextBoxFor(x => x.team_size, new { @class = "form-control" })
 
-                                </div>
+    </div>
 
-                                <div class="row">
+    </div>
 
-                                    @Html.TextBoxFor(x => x.team_size, new { @class = "form-control" })
+    <div class="col-md-2"></div>
 
-                                </div>
+   </div>
 
-                            </div>
+   <div class="row m2">
 
-                            <div class="col-md-2"></div>
+    <div class="col-md-2"></div>
 
-                        </div>
+    <div class="col-md-4">
 
-                        <div class="row m2">
+    <div class="row">
 
-                            <div class="col-md-2"></div>
+     <label>Technology Stack</label>
 
-                            <div class="col-md-4">
+    </div>
 
-                                <div class="row">
+    <div class="row">
+     @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
 
-                                    <label>Technology Stack</label>
+    </div>
 
-                                </div>
+    </div>
 
-                                <div class="row">
-                                    @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
+    <div class="col-md-4">
 
-                                </div>
+    <div class="row">
 
-                            </div>
+     <label>Developement Methodology</label>
 
-                            <div class="col-md-4">
+    </div>
 
-                                <div class="row">
+    <div class="row">
+     @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
 
-                                    <label>Developement Methodology</label>
+    </div>
 
-                                </div>
+    </div>
 
-                                <div class="row">
-                                    @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
+    <div class="col-md-2"></div>
 
-                                </div>
+   </div>
 
-                            </div>
+   <div class="row m2">
 
-                            <div class="col-md-2"></div>
+    <div class="col-md-2"></div>
 
-                        </div>
+    <div class="col-md-4">
 
-                        <div class="row m2">
+    <div class="row">
 
-                            <div class="col-md-2"></div>
+     <label>Project Domain</label>
 
-                            <div class="col-md-4">
+    </div>
 
-                                <div class="row">
+    <div class="row">
 
-                                    <label>Project Domain</label>
+     @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
 
-                                </div>
+    </div>
 
-                                <div class="row">
-                                    @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
+    </div>
 
+    <div class="col-md-4">
 
-                                </div>
+    <div class="row">
 
-                            </div>
+     <label>Project TimeLine</label>
 
-                            <div class="col-md-4">
+    </div>
 
-                                <div class="row">
+    <div class="row">
 
-                                    <label>Project TimeLine</label>
+     @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
 
-                                </div>
+    </div>
 
-                                <div class="row">
+    </div>
 
-                                    @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
+    <div class="col-md-2"></div>
 
+   </div>
 
-                                </div>
+   <div class="row m2">
 
-                            </div>
+    <div class="col-md-2"></div>
 
-                            <div class="col-md-2"></div>
+    <div class="col-md-4">
 
-                        </div>
+    <div class="row">
 
-                        <div class="row m2">
+     <label>Risk Factor</label>
 
-                            <div class="col-md-2"></div>
+    </div>
 
-                            <div class="col-md-4">
+    <div class="row">
+     @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
 
-                                <div class="row">
+    </div>
 
-                                    <label>Risk Factor</label>
+    </div>
 
-                                </div>
+    <div class="col-md-4">
 
-                                <div class="row">
-                                    @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
+    <div class="row">
 
-                                </div>
+     <label>Quality Metrics</label>
 
-                            </div>
+    </div>
 
-                            <div class="col-md-4">
+    <div class="row">
+     @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
 
-                                <div class="row">
+    </div>
 
-                                    <label>Quality Metrics</label>
+    </div>
 
-                                </div>
+    <div class="col-md-2"></div>
 
-                                <div class="row">
-                                    @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
+   </div>
 
+   <div class="row m2">
 
-                                </div>
+    <div class="col-md-2"></div>
 
-                            </div>
+    <div class="col-md-8">
 
-                            <div class="col-md-2"></div>
+    <div class="row">
 
-                        </div>
+     <label>External Factors</label>
 
-                        <div class="row m2">
+    </div>
 
-                            <div class="col-md-2"></div>
+    <div class="row">
 
-                            <div class="col-md-8">
+     @Html.TextAreaFor(model => model.external_factor, new { @class = "form-control", Placeholder = "External Factor", Style = "min-width:87%;resize:none" })
 
-                                <div class="row">
+    </div>
 
-                                    <label>External Factors</label>
+    </div>
 
-                                </div>
+    <div class="col-md-2"></div>
 
-                                <div class="row">
+   </div>
 
-                                    @Html.TextAreaFor(model => model.external_factor, new { @class = "form-control", Placeholder = "External Factor", Style = "min-width:87%;resize:none" })
+   </div>
 
+  </div>
 
-                                </div>
+  </div>
 
-                            </div>
+ </div>
 
-                            <div class="col-md-2"></div>
+ <div class="row m2">
 
-                        </div>
+  <div class="col-md-2"></div>
 
-                    </div>
+  <div class="col-md-4">
+  </div>
 
-                </div>
+  <div class="col-md-2">
+  </div>
 
-            </div>
+  <div class="col-md-4 pull-left">
 
-        </div>
+  <input type="submit" id="submitButton" value="Submit" class="btn btn-primary" />
 
-        <div class="row m2">
+  <input type="reset" id="cancelButton" value="Cancel" onclick="clearInput()" class="btn btn-secondary" />
 
-            <div class="col-md-2"></div>
+  </div>
 
-            <div class="col-md-4">
-            </div>
+ </div>
 
-            <div class="col-md-2">
-            </div>
+ <div class="Container">
 
-            <div class="col-md-4 pull-left">
+  @if (ViewBag.DisplayErrorMessage == true)
+  {
+  <div class="input-group">
 
-                <input type="submit" id="submitButton" value="Submit" class="btn btn-primary" />
+   <span class="input-group-btn">
 
-                <input type="reset" id="cancelButton" value="Cancel" onclick="clearInput()" class="btn btn-secondary" />
+   <label>@Html.DisplayFor(model => model.ErrorMessage)</label>
 
+   </span>
 
-            </div>
+  </div>
 
-        </div>
+  }
+  else{
+  <div class="input-group">
 
+   <span class="input-group-btn">
 
-        <div class="Container">
+   <strong> Cost Estimation predicted by AI: </strong> <label>@Html.DisplayFor(model => model.MLOutput)</label>
 
-            @if (ViewBag.DisplayErrorMessage == true)
-            {
-                <div class="input-group">
+   </span>
 
-                    <span class="input-group-btn">
+  </div>
 
-                        <label>@Html.DisplayFor(model => model.ErrorMessage)</label>
+ @* <div class="input-group">
 
-                    </span>
+  <span class="input-group-btn">
 
-                </div>
-               
-            }
-            else{
-                <div class="input-group">
+   <strong>The Estimated Time is: </strong><label>@Html.DisplayFor(model => model.Time)</label>
 
-                    <span class="input-group-btn">
+  </span>
 
-                       <strong> Cost Estimation predicted by AI: </strong> <label>@Html.DisplayFor(model => model.MLOutput)</label>
+  </div> *@
+  }
+ </div>
 
-                    </span>
-
-                </div>
-
-
-
-  @*               <div class="input-group">
-
-                <span class="input-group-btn">
-
-                   <strong>The Estimated Time is: </strong><label>@Html.DisplayFor(model => model.Time)</label>
-
-                </span>
-
-             </div> *@
-            }
-        </div>
-
-    }
-
+ }
 
 }
 
+@* </div>
+
+ </div>
 
 
+@* @Scripts.Render("~/bundles/chosen") ; *@
 
+ <script type="text/javascript">
 
-@*  </div>
+ // in the page load make $('#Submit').Disable = false; based on Viewbag.EnableSubmit
 
-    </div>
-*@
+ $(document).ready(function () {
+ // Event handler for collapse elements
+ $('.collapse').on('shown.bs.collapse', function () {
+ $(this).parent().find('.glyphicon-menu-down').removeClass('glyphicon-menu-down').addClass('glyphicon-menu-up');
+ }).on('hidden.bs.collapse', function () {
+ $(this).parent().find('.glyphicon-menu-up').removeClass('glyphicon-menu-up').addClass('glyphicon-menu-down');
+ });
+ // Event handler for input fields
 
+ $('textarea.form-control').on('input', function () {
 
+  // Clear output and hide container when typing starts
 
+  $('.Container').hide().find('label').empty(); // Hide container and clear output label
 
-@* @section Scripts{
-*@
-@*  @Scripts.Render("~/bundles/chosen") ; *@
+ });
 
-<script type="text/javascript">
-    // in the page load make  $('#Submit').Disable = false; based on Viewbag.EnableSubmit
-  $(document).ready(function () {
-    // Event handler for collapse elements
-    $('.collapse').on('shown.bs.collapse', function () {
-        $(this).parent().find('.glyphicon-menu-down').removeClass('glyphicon-menu-down').addClass('glyphicon-menu-up');
-    }).on('hidden.bs.collapse', function () {
-        $(this).parent().find('.glyphicon-menu-up').removeClass('glyphicon-menu-up').addClass('glyphicon-menu-down');
-    });
-     // Event handler for input fields
+ $('.aceForm').on('submit', function () {
 
-  $('textarea.form-control').on('input', function () {
+ $('#submitButton').prop("disabled", true);
+  $('.Container').show();
+@*
+ $('#submitButton').css("cursor", "not-allowed"); *@
 
-   // Clear output and hide container when typing starts
+ $(this).submit();
+ });
+ });
 
-   $('.Container').hide().find('label').empty(); // Hide container and clear output label
-
-  });
-    
-    $('.aceForm').on('submit', function () {
-       
-        $('#submitButton').prop("disabled", true);
-@*       
-        $('#submitButton').css("cursor", "not-allowed"); *@
-
-        $(this).submit();
-    });
+$(window).on('load', function() {
+$('textarea.form-control').val('');
+  $('input.form-control').val('');
 });
-  </Script>
+ </Script>
