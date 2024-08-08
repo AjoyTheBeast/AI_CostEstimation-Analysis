@@ -12,14 +12,15 @@
             font-size: 50px;
             line-height: 20px;
         }</style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ACE_App.styles.css" asp-append-version="true" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/lib/chosen-js/chosen.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
 
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -28,7 +29,7 @@
     <script src="~/lib/chosen-js/chosen.jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-   @*  @RenderSection("Styles", required: false) *@
+    @*  @RenderSection("Styles", required: false) *@
 </head>
 <body>
     <header>
@@ -59,12 +60,9 @@
             @RenderBody()
         </main>
     </div>
-    
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - ACE_App - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
+    <footer>
+        <p> &copy; 2024 - ACE App - <a asp-area="" asp-page="/Privacy">Privacy</a> </p>
+ </footer>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 @RenderSection("Scripts", required: false)
