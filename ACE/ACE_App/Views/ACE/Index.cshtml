@@ -84,7 +84,14 @@ select.form-control {
  padding: 10px;
  padding-bottom:10px;
  border-radius: 8px 8px 8px 8px;
- cursor: pointer;
+ display: flex; 
+ justify-content: space-between; 
+ align-items: center; 
+ position: relative;
+ 
+}
+
+
 }
 .input-group-addon {
  padding: 10px;
@@ -159,6 +166,14 @@ select.form-control {
  font-size: large;
  }
 
+ .dropdown-arrow {
+    cursor: pointer;
+    position: absolute; 
+    right: 10px; 
+    top: 50%; 
+    transform: translateY(-50%) translateY(1px);
+}
+
 </style>
 @* <div class="row">
 
@@ -217,6 +232,9 @@ select.form-control {
     &nbsp;<strong> Advanced search</strong>
 
    </span>
+   
+   <span class="dropdown-arrow glyphicon glyphicon-menu-down"></span> <!-- New -->
+
 
    </h4>
 
@@ -523,6 +541,15 @@ select.form-control {
 
  $(this).submit();
  });
+ //prevent panel heading click
+ $('.panel-heading').click(function (event) {
+    event.stopPropagation();
+});
+ // Handle click on dropdown arrow
+$('.dropdown-arrow').click(function () {
+    $('#panelBody').collapse('toggle');
+   });
+
  });
 
 $(window).on('load', function() {
