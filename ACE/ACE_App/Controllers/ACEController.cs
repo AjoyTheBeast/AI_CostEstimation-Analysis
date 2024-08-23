@@ -5,6 +5,7 @@ using ACE_App.Services;
 using Aspose.Pdf;
 using Aspose.Pdf.Text;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using static iTextSharp.text.pdf.AcroFields;
 
 namespace ACE_App.Controllers
@@ -15,10 +16,6 @@ namespace ACE_App.Controllers
         public ACEController(IACEService ace)
         {
             _ace = ace;
-        }
-        public IActionResult Index()
-        {
-            return View();
         }
 
         [HttpPost]
@@ -158,5 +155,49 @@ namespace ACE_App.Controllers
             }
         }
 
+        public IActionResult Index()
+        {
+            var model = new ACEModel
+            {
+                TechnologyStackOptions = new List<SelectListItem>
+                {
+                    new SelectListItem{Value="1",Text=".Net"},
+                    new SelectListItem{Value="2",Text="Java"},
+                    new SelectListItem{Value="3",Text="Python"},
+                    new SelectListItem{Value="4",Text="AWS"},
+                    new SelectListItem{Value="5",Text="Azure"},
+                    new SelectListItem{Value="6",Text="SQL"},
+                    new SelectListItem{Value="7",Text="React"},
+                    new SelectListItem{Value="8",Text="Angular"},
+                    new SelectListItem{Value="9",Text="DevOps"},
+                    new SelectListItem{Value="10",Text="Hadoop"}
+                }
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Index(ACEModel model)
+        {
+            var selectedTechnologies = model.TechnologyStack;
+            var viewModel = new ACEModel
+            {
+                TechnologyStackOptions = new List<SelectListItem>
+                {
+                    new SelectListItem { Value = "1", Text = ".Net" },
+                    new SelectListItem { Value = "2", Text = "Java" },
+                    new SelectListItem { Value = "3", Text = "Python" },
+                    new SelectListItem { Value = "4", Text = "AWS" },
+                    new SelectListItem { Value = "5", Text = "Azure" },
+                    new SelectListItem { Value = "6", Text = "SQL" },
+                    new SelectListItem { Value = "7", Text = "React" },
+                    new SelectListItem { Value = "8", Text = "Angular" },
+                    new SelectListItem { Value = "9", Text = "DevOps" },
+                    new SelectListItem { Value = "10", Text = "Hadoop" }
+                },
+                TechnologyStack = selectedTechnologies
+            };
+            return View(viewModel);
+        }
     }
 }

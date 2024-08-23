@@ -302,8 +302,28 @@ select.form-control {
     </div>
 
     <div class="row">
-     @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
-
+        <input type="text" id="technologyStackTextbox" class="form-control" placeholder="Search or click to select technologies..." />
+        @Html.ListBoxFor(m => m.TechnologyStack, Model.TechnologyStackOptions, new { @class = "form-control" })
+        <div id="technologyStackDropdown" style="display:none; position: absolute; background-color: white; border: 1px solid #ccc; padding: 10px; z-index: 1000;">
+            <ul id="technologyStackList" style="list-style-type: none; padding: 0; margin: 0;">
+                <li>
+                    <input type="checkbox" id="selectAll" />
+                    <label for="selectAll">Select All</label>
+                </li>
+                @foreach (var option in Model.TechnologyStackOptions)
+                {
+                    <li>
+                        <input type="checkbox" name="TechnologyStack" value="@option.Value" id="tech_@option.Value" @(Model.TechnologyStack.Contains(option.Value) ? "checked" : "") />
+                        <label for="tech_@option.Value">@option.Text</label>
+                    </li>
+                }
+            </ul>
+        </div>
+        <button type="button" id="viewButton" class="btn btn-primary">View</button>
+    <div>
+        <h4>Selected Technologies: <span id="selectedTechnologies">@string.Join(", ", ViewBag.SelectedTechnologies ?? new List<string>())</span></h4>
+        <h4>Selected Project Complexity: <span id="selectedProjectComplexity">@ViewBag.SelectedProjectComplexity</span></h4> 
+    </div>
     </div>
 
     </div>
@@ -508,6 +528,9 @@ select.form-control {
 
 @* @Scripts.Render("~/bundles/chosen") ; *@
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
  <script type="text/javascript">
 
  // in the page load make $('#Submit').Disable = false; based on Viewbag.EnableSubmit
@@ -556,4 +579,182 @@ $(window).on('load', function() {
 $('textarea.form-control').val('');
   $('input.form-control').val('');
 });
+
+//List Box
+    $('#technologyStackTextbox').click(function () {
+            $('#technologyStackDropdown').toggle();
+     });
+        // Search in the textbox
+     $('#technologyStackTextbox').on('input', function () {
+            var searchValue = $(this).val().toLowerCase();
+            $('#technologyStackList li').each(function () {
+                $(this).toggle($(this).text().toLowerCase().includes(searchValue));
+            });
+     });
+      // Select All
+        $('#selectAll').change(function () {
+            var checked = $(this).prop('checked');
+            $('#technologyStackDropdown input[type=checkbox]').not('#selectAll').prop('checked', checked).trigger('change');
+        });
+
+        // Checkbox value
+        $('#technologyStackDropdown input[type=checkbox]').not('#selectAll').change(function () {
+            var selectedValues = [];
+            $('#technologyStackDropdown input[type=checkbox]:checked').not('#selectAll').each(function () {
+                selectedValues.push($(this).val());
+            });
+            $('#technologyStackTextbox').val(selectedValues.join(', '));
+
+            // Select all
+            var allChecked = $('#technologyStackDropdown input[type=checkbox]').not('#selectAll').length === $('#technologyStackDropdown input[type=checkbox]:checked').not('#selectAll').length;
+            $('#selectAll').prop('checked', allChecked); // if everything is checked it will select selectall
+        });
+        // Hide dropdown
+        $(document).click(function (event) {
+            if (!$(event.target).closest('#technologyStackTextbox, #technologyStackDropdown').length) {
+                if ($('#technologyStackDropdown').is(":visible")) {
+                    $('#technologyStackDropdown').hide();
+                }
+            }
+        });
+
+
+        $('#viewButton').click(function () {
+            var selectedTechnologies = $('#technologyStackTextbox').val();
+            var selectedProjectComplexity = $('#ProjectComplexityDropdown').val();
+
+            $('#selectedTechnologies').text(selectedTechnologies);
+            $('#selectedProjectComplexity').text(selectedProjectComplexity);
+
+        });
+
  </Script>
+
+
+
+
+
+@* ----------------------------For checking purpose-------------------------- *@
+
+
+
+@* @page
+
+@using ACE_App.Models
+
+@model ACEModel
+
+@{
+
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+
+    ViewBag.Title = "ACE Home";
+
+}
+<form asp-action="Index" method="post" id="ListBoxForm">
+    <div class="form-group">
+        <label>Select Technologies:</label>
+        <input type="text" id="technologyStackTextbox" class="form-control" placeholder="Search or click to select technologies..." />
+
+        @Html.ListBoxFor(m => m.TechnologyStack, Model.TechnologyStackOptions, new { @class = "d-none" })
+        <div id="technologyStackDropdown" style="display:none; position: absolute; background-color: white; border: 1px solid #ccc; padding: 10px; z-index: 1000;">
+            <ul id="technologyStackList" style="list-style-type: none; padding: 0; margin: 0;">
+                <li>
+                    <input type="checkbox" id="selectAll" />
+                    <label for="selectAll">Select All</label>
+                </li>
+                @foreach (var option in Model.TechnologyStackOptions)
+                {
+                    <li>
+                        <input type="checkbox" name="TechnologyStack" value="@option.Value" id="tech_@option.Value" @(Model.TechnologyStack.Contains(option.Value) ? "checked" : "") />
+                        <label for="tech_@option.Value">@option.Text</label>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <label>Project complexity:</label>
+        @Html.DropDownListFor(m => m.ProjectComplexity, Model.ProjectComplexityOptions, "Select Complexity", new { @id = "ProjectComplexityDropdown", @class = "form-control" })
+    </div>
+    <button type="button" id="viewButton" class="btn btn-primary">View</button>
+    <div>
+        <h4>Selected Technologies: <span id="selectedTechnologies">@string.Join(", ", ViewBag.SelectedTechnologies ?? new List<string>())</span></h4>
+        <h4>Selected Project Complexity: <span id="selectedProjectComplexity">@ViewBag.SelectedProjectComplexity</span></h4>
+    </div>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Show dropdown
+        $('#technologyStackTextbox').click(function () {
+            $('#technologyStackDropdown').toggle();
+        });
+
+        $('#ProjectComplexityTextbox').click(function () {
+            $('#projectComplexityDropdown').toggle();
+        });
+
+        // Search in the textbox
+        $('#technologyStackTextbox').on('input', function () {
+            var searchValue = $(this).val().toLowerCase();
+            $('#technologyStackList li').each(function () {
+                $(this).toggle($(this).text().toLowerCase().includes(searchValue));
+            });
+        });
+
+        // Select All
+        $('#selectAll').change(function () {
+            var checked = $(this).prop('checked');
+            $('#technologyStackDropdown input[type=checkbox]').not('#selectAll').prop('checked', checked).trigger('change');
+        });
+
+        // Checkbox value
+        $('#technologyStackDropdown input[type=checkbox]').not('#selectAll').change(function () {
+            var selectedValues = [];
+            $('#technologyStackDropdown input[type=checkbox]:checked').not('#selectAll').each(function () {
+                selectedValues.push($(this).val());
+            });
+            $('#technologyStackTextbox').val(selectedValues.join(', '));
+
+            // Select all
+            var allChecked = $('#technologyStackDropdown input[type=checkbox]').not('#selectAll').length === $('#technologyStackDropdown input[type=checkbox]:checked').not('#selectAll').length;
+            $('#selectAll').prop('checked', allChecked); // if everything is checked it will select selectall
+        });
+
+        // Hide dropdown
+        $(document).click(function (event) {
+            if (!$(event.target).closest('#technologyStackTextbox, #technologyStackDropdown').length) {
+                if ($('#technologyStackDropdown').is(":visible")) {
+                    $('#technologyStackDropdown').hide();
+                }
+            }
+        });
+
+        $('#ProjectComplexityTextbox').on('input', function () {
+            var searchValue = $(this).val().toLowerCase();
+            $('#projectComplexityList li').each(function () {
+                $(this).toggle($(this).text().toLowerCase().includes(searchValue));
+            });
+        });
+
+        $('.project-complexity-item').click(function (e) {
+            e.preventDefault();
+            var value = $(this).data('value');
+            var text = $(this).text();
+            $('#ProjectComplexityTextbox').val(text);
+            $('#ProjectComplexityTextbox').data('selected-value', value);
+            $('#projectComplexityDropdown').hide();
+        });
+
+        $('#viewButton').click(function () {
+            var selectedTechnologies = $('#technologyStackTextbox').val();
+            var selectedProjectComplexity = $('#ProjectComplexityDropdown').val();
+
+            $('#selectedTechnologies').text(selectedTechnologies);
+            $('#selectedProjectComplexity').text(selectedProjectComplexity);
+
+        });
+    });
+</script>
+ *@

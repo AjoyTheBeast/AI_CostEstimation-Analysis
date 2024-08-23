@@ -12,22 +12,22 @@ namespace ACE_App.Models
 
         // Properties for dropdown options  
         public string ProjectComplexity { get; set; } = string.Empty;
-        public List<string> TechnologyStack { get; set; } = null;
-        public string DevelopmentMethodology { get; set; } = string.Empty;
-        public string ProjectDomain { get; set; } = string.Empty;
-        public List<string> RiskFactors { get; set; } = null;
-        public List<string> QualityMetrics { get; set; } = null;
+        public List<string> TechnologyStack { get; set; } = new List<string>();
+        public List<string> DevelopmentMethodology { get; set; } = new List<string>();
+        public List<string> ProjectDomain { get; set; } = new List<string>();
+        public List<string> RiskFactors { get; set; } = new List<string>();
+        public List<string> QualityMetrics { get; set; } = new List<string>();
         public int team_size { get; set; }
         public int project_timeline { get; set; }
         public string external_factor { get; set; } = string.Empty;
 
         // Properties for dropdown SelectList
-        public SelectList ProjectComplexityOptions { get; set; } = null;
-        public MultiSelectList TechnologyStackOptions { get; set; } = null;
-        public SelectList DevelopmentMethodologyOptions { get; set; } = null;
-        public SelectList ProjectDomainOptions { get; set; } = null;
-        public MultiSelectList RiskFactorsOptions { get; set; } = null;
-        public MultiSelectList QualityMetricsOptions { get; set; } = null;
+        public List<SelectListItem> ProjectComplexityOptions { get; set; } = new List<SelectListItem>();
+        public List<SelectListItem> TechnologyStackOptions { get; set; } = new List<SelectListItem>();
+        public List<SelectListItem> DevelopmentMethodologyOptions { get; set; } = new List<SelectListItem>();
+        public List<SelectListItem> ProjectDomainOptions { get; set; } = new List<SelectListItem>();
+        public List<SelectListItem> RiskFactorsOptions { get; set; } = new List<SelectListItem>();
+        public List<SelectListItem> QualityMetricsOptions { get; set; } = new List<SelectListItem>();
     }
 
 }
