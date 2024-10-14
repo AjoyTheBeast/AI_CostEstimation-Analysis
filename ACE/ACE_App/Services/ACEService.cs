@@ -1,67 +1,62 @@
 ﻿using ACE_App.Models;
 using Newtonsoft.Json;
-using System.Linq;
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Web;
-
+using Microsoft.Extensions.Logging;
 
 namespace ACE_App.Services
 {
     public interface IACEService
     {
-        public Task<ACEModel> GetEstimation(string userText);
+        Task<ACEModel> GetEstimation(string userText);
     }
-    public class ACEService: IACEService
+
+    public class ACEService : IACEService
     {
-        private readonly HttpClient client;
-        private readonly ILogger<ACEService> logger;
+        private readonly HttpClient _client;
+        private readonly ILogger<ACEService> _logger;
+
         public ACEService(HttpClient client, ILogger<ACEService> logger)
         {
-            this.client = client;
-            this.logger = logger;
+            _client = client;
+            _logger = logger;
         }
+
         public async Task<ACEModel> GetEstimation(string userText)
         {
             try
             {
-                ACEModel model = new ACEModel();
-                model.UserInput = userText;
-                string requestJson = JsonConvert.SerializeObject(model);
-                //  var jsonObj = JsonSerializer // TODO - Please check this syntax - convert the above model into json object when hari's API is ready.
-                var foo = Newtonsoft.Json.JsonConvert.SerializeObject(model);
+                // Create and serialize request payload
+                var requestModel = new ACEModel { UserInput = userText };
+                var requestJson = JsonConvert.SerializeObject(requestModel);
+                
 
-                string requestUrl = "http://127.0.0.1:8000/predictexp";
-                HttpResponseMessage response = null;
-                var data = "";
-
+                var requestUrl = new Uri("http://127.0.0.1:8000/predictexp");  // Update to your FastAPI URL
                 var content = new StringContent(requestJson);
                 content.Headers.ContentType = new MediaTypeWithQualityHeaderValue("application/json");
-                var client = new HttpClient();
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                response = await client.PostAsync(requestUrl, content).ConfigureAwait(false);
-
+                // Send POST request to FastAPI
+                var response = await _client.PostAsync(requestUrl, content).ConfigureAwait(false);
                 if (response.IsSuccessStatusCode)
                 {
-                    data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    model = JsonConvert.DeserializeObject<ACEModel>(data);
-                    logger.LogInformation("model generation successful");
-
+                    var responseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    var model = JsonConvert.DeserializeObject<ACEModel>(responseData);
+                    _logger.LogInformation("Received successful response from FastAPI.");
+                    return model;
                 }
                 else
-                    throw new Exception("something wrong");
-
-                return model;
+                {
+                    _logger.LogError($"Failed API call with status code: {response.StatusCode}");
+                    return new ACEModel { ErrorMessage = "Failed to retrieve estimation." };
+                }
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message);
-                return new ACEModel() { ErrorMessage = "Request could not be processed" };
+                _logger.LogError(ex, "Exception occurred in GetEstimation.");
+                return new ACEModel { ErrorMessage = "An error occurred while processing your request." };
             }
-
         }
     }
 }

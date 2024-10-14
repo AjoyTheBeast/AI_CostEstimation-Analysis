@@ -1,529 +1,220 @@
-﻿@page
-
-@using ACE_App.Models
-
+﻿@using ACE_App.Models
 @model ACEModel
 
 @{
-
- Layout = "~/Pages/Shared/_Layout.cshtml";
-
- ViewBag.Title = "ACE Home";
-
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    ViewBag.Title = "ACE Home";
 }
+
 <style>
- .form-control {
- border-radius: 4px;
- border: 1px solid #ced4da;
- padding: 10px;
- width: 100%;
-}
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        padding: 10px;
+        width: 100%;
+    }
 
-textarea.form-control {
- resize: none;
-}
+    textarea.form-control {
+        resize: none;
+    }
 
-.col-md-1{
- padding: 25px;
- font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-}
-select.form-control {
- width: 100%;
- padding: 10px;
-}
- .row {
- padding: 2px;
- margin: 2px;
- }
+    textarea.history-box {
+        resize: none;
+        height: 300px;
+        margin-bottom: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #ced4da;
+        width: 100%;
+    }
 
- .requiredicon {
- color: red !important;
- }
+    .label-left {
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        padding: 10px;
+    }
 
- /* .m2 {
+    .row {
+        padding: 2px;
+        margin: 2px;
+    }
 
-  margin-top: 8px !important;
- } */
+    .panel {
+        border-radius: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+    }
 
- .form-control {
- border-radius: 4px !important;
- }
+    .panel-heading {
+        background-color: cornflowerblue;
+        color: white;
+        padding: 10px;
+        padding-bottom: 10px;
+        border-radius: 8px 8px 8px 8px;
+    }
 
- .chosen-choices {
- border-radius: 4px !important;
- }
+    .panel-title {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: 18px;
+    }
 
- .font-red{
- color:red !important;
- font-size:11px;
- justify-content:normal;
- }
+    .btn-custom {
+        background-color: #6c757d;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-weight: bold;
+        color: white;
+    }
 
- .chosen-container {
- width: 280px !important;
- }
+        .btn-custom:hover {
+            opacity: 0.8;
+        }
 
- /*for accordion */
+    .input-group {
+        width: 100%;
+        position: relative;
+    }
 
- .panel {
- border-radius: 8px;
- margin-bottom: 10px;
- border: 1px solid #ddd;
-}
+    textarea.form-control.curved-box {
+        border-radius: 8px;
+        padding-right: 50px;
+    }
 
-.panel-heading {
- background-color: cornflowerblue;
- color: white;
- padding: 10px;
- padding-bottom:10px;
- border-radius: 8px 8px 8px 8px;
- display: flex; 
- justify-content: space-between; 
- align-items: center; 
- position: relative;
- 
-}
+    .final-cost-label {
+        font-weight: bold;
+        margin-top: 20px;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
 
-
-}
-.input-group-addon {
- padding: 10px;
-}
-
-.panel-title {
- margin-top: 0;
- margin-bottom: 0;
- font-size: 18px;
-}
-
-.panel-body {
- padding: 15px;
- border-top: 1px solid #ddd;
-}
-
-.panel-body p {
- margin-bottom: 10px;
-}
- /* Button styling */
-.btn {
- border-radius: 10px;
- border: none;
- font-weight: bold;
- padding: 10px 20px;
- margin: 5px;
- cursor: pointer;
-}
-
-.btn-primary {
- background-color: #007bff;
- color: white;
-}
-
-.btn-secondary {
- background-color: #6c757d;
- color: white;
-}
-
-.btn-primary:hover, .btn-secondary:hover {
- opacity: 0.8;
-}
-
- .col-md-3 p {
- color: red;
- font-size: 11px !important;
- text-align: justify;
- }
-
- .input-group-btn {
- margin: 20px;
- font-size: large;
- }
-
- .dropdown-arrow {
-    cursor: pointer;
-    position: absolute; 
-    right: 10px; 
-    top: 50%; 
-    transform: translateY(-50%) translateY(1px);
-}
-
+    /* Chat History Formatting */
+    .chat-history {
+        white-space: pre-wrap;
+    }
 </style>
-@* <div class="row">
 
- <div class="col-lg-4 col-lg-offset-4"> *@
-
-@using (Html.BeginForm("Create", "ACE", FormMethod.Post, new { @class = "aceForm" }))
+@using (Html.BeginForm("Create", "ACE", FormMethod.Post, new { @class = "aceForm", id = "ace-Form" }))
 
 {
+    <!-- AI Cost Estimation Heading -->
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h4 class="panel-title"><b>AI Cost Estimation</b></h4>
+        </div>
+    </div>
 
- {
- <h2 class="text-center"><b>ACE - The AI driven COST ESTIMATION</b></h2>
-
-  <div class="panel panel-primary ">
-
-  <div class="panel-heading">
-
-  <h4 class="panel-title"><b>Basic Search</b></h4>
-
-  </div>
-
- </div>
-
- <div class="row">
-  <div class="input-group">
-  <div class="col-md-1">Provide a high level Project description</div>
-  <div class="col-md-6">
-   @Html.TextAreaFor(model => model.UserInput, new { @class = "form-control", rows = "4", placeholder="I want to create a banking app such that...",Style = "min-width:100%;resize:none;height:120px;margin:20px" })
-  </div>
-  <div class="col-md-4">
-   <br />
-   <br />
-   <br />
-  <h4><strong>Example</strong></h4>
-  <p class="font-red" style="font-style:italic"> Create an API using Python and Oracle to integrate it with front-end using agile approach </p>
-  </div>
-  <div class="col-md-1"></div>
-  </div>
- </div>
-
- <div id="accordion" class="pannel-group">
-
-  @*Create panel*@
-
-  <div class="panel panel-primary ">
-
-  <div class="panel-heading">
-
-   <h4 class="panel-title">
-
-   @*//link head with body use #panelBody and use 2 data dash attribute toggle is collapse and parent is #accordion*@
-
-   <span href="#panelBody" data-toggle="collapse" data-parent="#accordion">
-
-    @* <span class="glyphicon glyphicon-menu-down"></span>
-    *@
-    &nbsp;<strong> Advanced search</strong>
-
-   </span>
-   
-   <span class="dropdown-arrow glyphicon glyphicon-menu-down"></span> <!-- New -->
-
-
-   </h4>
-
-  </div>
-
-  @*//to keep all panel body collapse*@
-
-  <div id="panelBody" class="panel-collapse collapse">
-
-   @*//if we use in it will be opened by default*@
-
-   <div class="panel-body">
-
-   @*------------------------start of accordion menu ---------------------------*@
-
-   <div class="row m2">
-
-    <div class="col-md-2"></div>
-
-    <div class="col-md-4">
-
+    <!-- Search History text box -->
     <div class="row">
+        <div class="input-group">
+            <div class="col-md-12">
 
-     <label>Project Complexity</label>
+                @Html.TextAreaFor(model => model.History, new { @class = "form-control history-box chat-history", rows = "10", placeholder = "Chat history will appear here...", @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
 
+    <!-- Basic Search Text Area -->
+    <div class="row">
+        <div class="col-md-2 label-left">Give high-level Project Description</div>
+        <div class="col-md-9">
+
+            @Html.TextAreaFor(model => model.UserInput, new { @class = "form-control curved-box", id = "user-Input", rows = "4", placeholder = "I want to create a banking app such that...", Style = "min-width:100%;resize:none;height:120px;" })
+        </div>
     </div>
 
     <div class="row">
-     @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
+        <div class="col-md-6 text-left">
+            <a href="@Url.Action("GeneratePdf", "ACE")" class="btn btn-custom">Generate PDF</a>
+        </div>
 
+        <div class="col-md-6 text-right">
+            <button type="submit" class="btn btn-custom" style="margin-right: 10px;">Submit</button>
+            <a href="javascript:void(0)" id="resetButton" class="btn btn-custom" onclick="clearSearch()">Reset</a>
+        </div>
     </div>
 
-    </div>
-
-    <div class="col-md-4">
-
+    <!-- Final Cost Estimation Label -->
     <div class="row">
-
-     <label>Team Size</label>
-
+        <div class="col-md-12">
+            <div class="final-cost-label">
+                <strong>The Final Cost Estimation for Project:</strong> <label id="finalCostLabel">@Html.DisplayFor(model => model.MLOutput)</label>
+            </div>
+        </div>
     </div>
-
-    <div class="row">
-
-     @Html.TextBoxFor(x => x.team_size, new { @class = "form-control" })
-
-    </div>
-
-    </div>
-
-    <div class="col-md-2"></div>
-
-   </div>
-
-   <div class="row m2">
-
-    <div class="col-md-2"></div>
-
-    <div class="col-md-4">
-
-    <div class="row">
-
-     <label>Technology Stack</label>
-
-    </div>
-
-    <div class="row">
-     @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
-
-    </div>
-
-    </div>
-
-    <div class="col-md-4">
-
-    <div class="row">
-
-     <label>Developement Methodology</label>
-
-    </div>
-
-    <div class="row">
-     @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
-
-    </div>
-
-    </div>
-
-    <div class="col-md-2"></div>
-
-   </div>
-
-   <div class="row m2">
-
-    <div class="col-md-2"></div>
-
-    <div class="col-md-4">
-
-    <div class="row">
-
-     <label>Project Domain</label>
-
-    </div>
-
-    <div class="row">
-
-     @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
-
-    </div>
-
-    </div>
-
-    <div class="col-md-4">
-
-    <div class="row">
-
-     <label>Project TimeLine</label>
-
-    </div>
-
-    <div class="row">
-
-     @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
-
-    </div>
-
-    </div>
-
-    <div class="col-md-2"></div>
-
-   </div>
-
-   <div class="row m2">
-
-    <div class="col-md-2"></div>
-
-    <div class="col-md-4">
-
-    <div class="row">
-
-     <label>Risk Factor</label>
-
-    </div>
-
-    <div class="row">
-     @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
-
-    </div>
-
-    </div>
-
-    <div class="col-md-4">
-
-    <div class="row">
-
-     <label>Quality Metrics</label>
-
-    </div>
-
-    <div class="row">
-     @Html.TextBoxFor(x => x.project_timeline, new { @class = "form-control" })
-
-    </div>
-
-    </div>
-
-    <div class="col-md-2"></div>
-
-   </div>
-
-   <div class="row m2">
-
-    <div class="col-md-2"></div>
-
-    <div class="col-md-8">
-
-    <div class="row">
-
-     <label>External Factors</label>
-
-    </div>
-
-    <div class="row">
-
-     @Html.TextAreaFor(model => model.external_factor, new { @class = "form-control", Placeholder = "External Factor", Style = "min-width:87%;resize:none" })
-
-    </div>
-
-    </div>
-
-    <div class="col-md-2"></div>
-
-   </div>
-
-   </div>
-
-  </div>
-
-  </div>
-
- </div>
-
- <div class="row m2">
-
-  <div class="col-md-2"></div>
-
-  <div class="col-md-4">
-  </div>
-
-  <div class="col-md-2">
-  </div>
-
-  <div class="col-md-4 pull-left">
-
-  <input type="submit" id="submitButton" value="Submit" class="btn btn-primary" />
-
-  <input type="reset" id="cancelButton" value="Cancel" onclick="clearInput()" class="btn btn-secondary" />
-
-  </div>
-
- </div>
-
- <div class="Container">
-
-  @if (ViewBag.DisplayErrorMessage == true)
-  {
-  <div class="input-group">
-
-   <span class="input-group-btn">
-
-   <label>@Html.DisplayFor(model => model.ErrorMessage)</label>
-
-   </span>
-
-  </div>
-
-  }
-  else{
-  <div class="input-group">
-
-   <span class="input-group-btn">
-
-   <strong> Cost Estimation predicted by AI: </strong> <label>@Html.DisplayFor(model => model.MLOutput)</label>
-
-   </span>
-
-  </div>
-
- @* <div class="input-group">
-
-  <span class="input-group-btn">
-
-   <strong>The Estimated Time is: </strong><label>@Html.DisplayFor(model => model.Time)</label>
-
-  </span>
-
-  </div> *@
-  }
- </div>
- <a href="@Url.Action("GeneratePdf", "ACE", new { /* pass ACEModel properties as route parameters if necessary */ })" class="btn btn-secondary">Generate PDF</a>
-
-
- }
 
 }
 
-@* </div>
+<script type="text/javascript">
+    $('#ace-Form').on("submit", handleApiResponse);
+// Fetch response from API
+    function handleApiResponse(event) {
+        event.preventDefault();
 
- </div>
+        var userInput = document.getElementById("user-Input").value;
 
+        var aceData = {
+            UserInput: userInput
+        }
 
-@* @Scripts.Render("~/bundles/chosen") ; *@
+        fetch("/ACE/Create", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(aceData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                updateChatHistory(data.history);
+                updateFinalCostEstimation(data.status, data.mlOutput);
+                clearUserInput();  // Clear the input box after submission
+            })
+            .catch(err => console.log(err));
+    }
 
- <script type="text/javascript">
+    // update chat history with spacing between User and AI messages
+    function updateChatHistory(content) {
+        let currentHistory = "";
 
- // in the page load make $('#Submit').Disable = false; based on Viewbag.EnableSubmit
+        content.forEach((msg, index) => {
+            if (index % 2 === 0) {
+                currentHistory += "User: " + msg + "\n\n";  // Adding extra space between User and AI
+            } else {
+                currentHistory += "AI: " + msg + "\n\n";
+            }
+        });
 
- $(document).ready(function () {
- // Event handler for collapse elements
- $('.collapse').on('shown.bs.collapse', function () {
- $(this).parent().find('.glyphicon-menu-down').removeClass('glyphicon-menu-down').addClass('glyphicon-menu-up');
- }).on('hidden.bs.collapse', function () {
- $(this).parent().find('.glyphicon-menu-up').removeClass('glyphicon-menu-up').addClass('glyphicon-menu-down');
- });
- // Event handler for input fields
+        $('#History').val(currentHistory.trim());
+    }
 
- $('textarea.form-control').on('input', function () {
+    // clear the input field
+    function clearUserInput() {
+        $('#user-Input').val('');  // Clear the basic search text box
+    }
 
-  // Clear output and hide container when typing starts
+    //  update the final cost estimation label based on status
+    function updateFinalCostEstimation(status, mlOutput) {
+        if (status === true) {
+            $('#finalCostLabel').text(mlOutput);  // Show ML Output when status is true
+        } else {
+            $('#finalCostLabel').text("");
+        }
+    }
 
-  $('.Container').hide().find('label').empty(); // Hide container and clear output label
+    //  clear search and reset chat history and cost estimation
+    function clearSearch() {
+        // Clear the chat history
+        $('#History').val('');
 
- });
+        // Clear the final cost estimation label
+        $('#finalCostLabel').text('');
 
- $('.aceForm').on('submit', function () {
+        // Clear the input field (if needed when reset is clicked)
+        $('#user-Input').val('');
+    }
 
- $('#submitButton').prop("disabled", true);
-  $('.Container').show();
-@*
- $('#submitButton').css("cursor", "not-allowed"); *@
-
- $(this).submit();
- });
- //prevent panel heading click
- $('.panel-heading').click(function (event) {
-    event.stopPropagation();
-});
- // Handle click on dropdown arrow
-$('.dropdown-arrow').click(function () {
-    $('#panelBody').collapse('toggle');
-   });
-
- });
-
-$(window).on('load', function() {
-$('textarea.form-control').val('');
-  $('input.form-control').val('');
-});
- </Script>
+    //   press Enter and submit the form
+    $(document).on('keypress', function (e) {
+        if (e.which === 13) {  // 13 is the Enter key
+            $('#ace-Form').submit();  // Submit the form
+        }
+    });
+</script>
