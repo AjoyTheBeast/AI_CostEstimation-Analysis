@@ -25,6 +25,13 @@
         background-color: #f8f9fa;
         border: 1px solid #ced4da;
         width: 100%;
+        overflow-y: scroll;
+    }
+
+    .chat-container {
+        position: relative;
+        overflow-y: hidden;
+        height: 300px;
     }
 
     .label-left {
@@ -124,7 +131,7 @@
 
     <div class="row">
         <div class="col-md-6 text-left">
-            <a href="@Url.Action("GeneratePdf", "ACE")" class="btn btn-custom">Generate PDF</a>
+            <a href="@Url.Action("GeneratePdf", "ACE", new {})" class="btn btn-custom">Generate PDF</a>
         </div>
 
         <div class="col-md-6 text-right">
@@ -141,6 +148,8 @@
             </div>
         </div>
     </div>
+
+    
 
 }
 
@@ -176,13 +185,16 @@
 
         content.forEach((msg, index) => {
             if (index % 2 === 0) {
-                currentHistory += "User: " + msg + "\n\n";  // Adding extra space between User and AI
+                currentHistory += "User: " + msg + "\n\n\n\n";  // Adding extra space between User and AI
             } else {
-                currentHistory += "AI: " + msg + "\n\n";
+                currentHistory += "AI: " + msg + "\n\n\n\n";
             }
         });
 
         $('#History').val(currentHistory.trim());
+
+        var historyBox = document.getElementById("History");
+        historyBox.scrollTop = historyBox.scrollHeight;
     }
 
     // clear the input field
